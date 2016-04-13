@@ -17,13 +17,13 @@ clear, close all
 % User interface:
 
 % Effect parameters with suggested initial value and typical range:
-LFO_freq_Hz =0.3; % low-frequency oscillator rate (Hz) / 1Hz / 0.1 to 10Hz
+LFO_freq_Hz =1; % low-frequency oscillator rate (Hz) / 1Hz / 0.1 to 10Hz
 LFO_depth_samples = 1000; % low-frequency oscillator depth (samples) / 5000 / 65536
-delay_max_ms = 4; % max delay line length (ms) / 0ms / 0 to 1000ms
-                     % (the delay line max length is 65535 samples)
+delay_max_ms = 8; % max delay line length (ms) / 0ms / 0 to 1000ms
+                  % (the delay line max length is 65535 samples)
 
 % Source audio:
-file_name = '22-020 Original Drums.wav';
+file_name = '22-004 Original Guitar.wav';
 audio_folder = 'C:\Users\Jacques\Documents\AFX\Mixing Audio Textbook Samples\22 Other modulation tools';
 
 % Create the audio reader and player objects
@@ -51,11 +51,11 @@ LFO.SampleRate = audio_reader.SampleRate;
 LFO.SamplesPerFrame = audio_reader.SamplesPerFrame;
 
 LFO2 = dsp.SineWave(0.5,LFO_freq_Hz);
-LFO2.PhaseOffset=pi/2;
+LFO2.PhaseOffset=0;
 LFO2.SampleRate = audio_reader.SampleRate;
 LFO2.SamplesPerFrame = audio_reader.SamplesPerFrame;
 
-GainW=0.5;
+GainW=0.8;
 GainD=1;
 
 
