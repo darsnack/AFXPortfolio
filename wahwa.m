@@ -23,41 +23,21 @@ delay_max_ms = 4; % max delay line length (ms) / 0ms / 0 to 1000ms
                      % (the delay line max length is 65535 samples)
 
 % Source audio:
-file_name = '22-020 Original Drums.wav';
+file_name = '22-004 Original Guitar.wav';
 audio_folder = 'C:\Users\Jacques\Documents\AFX\Mixing Audio Textbook Samples\22 Other modulation tools';
 
 % Create the audio reader and player objects
-audio_reader = dsp.AudioFileReader([audio_folder '\' file_name]);
+audio_reader = dsp.AudioFileReader([audio_folder '\' file_name],'SamplesPerFrame',1024);
 audio_player = dsp.AudioPlayer('SampleRate', audio_reader.SampleRate,'ChannelMappingSource','Property','ChannelMapping',[1 2]);
 audio_player.QueueDuration = 0;
 
 % Convert the user interface values:
 % delay in samples and linear gain
-delay_max = round((delay_max_ms/1000)*audio_reader.SampleRate);
 
 % Create the delay line object
-audio_delayline = dsp.VariableIntegerDelay;
-audio_delayline = dsp.VariableFractionalDelay;
-audio_delayline.MaximumDelay = delay_max;
-
-audio_delayline2 = dsp.VariableIntegerDelay;
-audio_delayline2 = dsp.VariableFractionalDelay;
-audio_delayline2.MaximumDelay = delay_max;
-
 % Create the sinewave oscillators
 
-LFO = dsp.SineWave(0.5,LFO_freq_Hz);
-LFO.SampleRate = audio_reader.SampleRate;
-LFO.SamplesPerFrame = audio_reader.SamplesPerFrame;
-
-LFO2 = dsp.SineWave(0.5,LFO_freq_Hz);
-LFO2.PhaseOffset=pi/2;
-LFO2.SampleRate = audio_reader.SampleRate;
-LFO2.SamplesPerFrame = audio_reader.SamplesPerFrame;
-
-GainW=0.5;
-GainD=1;
-
+LFO = dsp.SineWave(0.02,10);
 
 % Read, process, and play the audio
 while ~isDone(audio_reader)
@@ -66,19 +46,11 @@ while ~isDone(audio_reader)
     xl=x(:,1);
     xr=x(:,2);
     
-    % Get the next low-frequency oscillator output frame
-    lfo = (step(LFO)+0.5)*LFO_depth_samples;
-    lfo2 = (step(LFO2)+0.5)*LFO_depth_samples;
+    ch=step(LFO)+0.05;
     
-    
-    % Retrieve the next frame from the delay line;
-    % insert a new frame, too;
-    delayline_out = step(audio_delayline, xl, lfo);
-    delayline_out2 = step(audio_delayline2, xr, lfo2);
-    
-    % Generate the output
-    yl = (delayline_out*GainW+xl*GainD)*0.6;
-    yr = (delayline_out2*GainW+xr*GainD)*0.6;
+    [b,a] = butter(6,ch);
+    yl=filter(b,a,xl);
+    yr=filter(b,a,xr);
     
     % Listen to the results
     y=[yl yr];
