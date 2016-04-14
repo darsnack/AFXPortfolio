@@ -21,11 +21,16 @@ delay_max_ms = 30; % max delay line length (ms) / 0ms / 0 to 1000ms
                      % (the delay line max length is 65535 samples)
 
 % Source audio:
-file_name = 'Mixing Audio Textbook Samples\22 Other Modulation Tools\22-004 Original Guitar.wav';
-audio_folder = 'D:\Users\Kyle\Documents\Courses\AFX\Samples';
+file_name = '22-004 Original Guitar';
+audio_folder = 'D:\Users\Kyle\Documents\Courses\AFX\AFXPortfolio\InputAudio';
+output_folder = 'D:\Users\Kyle\Documents\Courses\AFX\AFXPortfolio\OutputAudio';
 
-%% Create the audio reader and player objects
-audio_reader = dsp.AudioFileReader([audio_folder '\' file_name]);
+%% Create the audio reader, writer, and player objects
+audio_reader = dsp.AudioFileReader(afx_ifilename(file_name, audio_folder, 'wav'));
+ofile_name = afx_ofilename('chorus', file_name, output_folder, 'wav', ...
+                            {{'freq' LFO_freq_Hz 'Hz'} ...
+                            {'delay_max' delay_max_ms 'ms'}});
+audio_writer = dsp.AudioFileWriter(ofile_name, 'SampleRate', audio_reader.SampleRate);
 audio_player = dsp.AudioPlayer('SampleRate', audio_reader.SampleRate);
 audio_player.QueueDuration = 0;
 
@@ -59,7 +64,9 @@ while ~isDone(audio_reader)
     
     % Listen to the results
     step(audio_player, y);
-
+    
+    % Save the results to a file
+    step(audio_writer, y);
 end
 
 

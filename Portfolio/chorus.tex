@@ -5,3 +5,31 @@ This mono effect combines a track with one or more delayed copies. There is a se
 The chorus effect is an easy way to add depth to a track. In particular, it is an artificial method to simulate double-tracking, a common technique used by artists to create a ``fuller'' sound.
 
 \subsection{Principles of Operation}
+The chorus effect is composed of several variable delay lines controlled by an LFO. Typically, the original, dry signal is added to the delayed, wet signals. The effect can come in two variants - standard chorus or multi-voice chorus. The standard chorus contains only a single delay line. The multi-voice chorus can contain several delay lines, where each delay line's LFO differs in phase. Figure \ref{fig:chorus-block-diagram} contains a block diagram for a multi-voice chorus effect with two delay lines.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.4]{chorus-block-diagram.png}
+    \caption{Block Diagram of Chorus Effect}
+    \label{fig:chorus-block-diagram}
+\end{figure}
+
+\subsection{Implementation}
+We implemented a standard chorus (\href{run:../chorus.m}{chorus.m}) and multi-voice chorus (\href{run:../chorus-multi.m}{chorus-multi.m}) with four delay lines in MATLAB. The standard chorus had a single delay line with an LFO at 0.08 Hz and peak delay of 30 ms. The multi-voice chorus featured four LFOs that were all operating at 0.08 Hz and peak delay of 30 ms. However, the first LFO was in-phase with the original signal, the second was $45^\circ$ out of phase, the third was $90^\circ$ out of phase, and the fourth was $135^\circ$ out of phase. The first and second LFOs were hard panned to the left channel, and the third and fourth LFOs were hard panned to the right channel. The end result is a richer, fuller sound.
+
+\subsection{Demo and Discussion}
+The \href{run:../InputAudio/22-004 Original Guitar.wav}{original audio} is an electric guitar track that is mono and panned center. We found the best results were obtained for an LFO frequency of 0.08 Hz and a peak delay of 30 ms. These settings can be heard for both the \href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.08Hz}{delay_max=30ms}.wav}{chorus} and the \href{run:../OutputAudio/chorus-multi_22-004 Original Guitar_{freq=0.08Hz}{delay_max=30ms}.wav}{multi-voice chorus} effects. \\ \\
+We also examined how the effect changes when parameters are varied. Since the LFO frequency is less than 0.1 Hz, changing the frequency is not as noticeable as an effect like flanger. However, there is a subtle change in the level of depth or richness added by the effect to the track. We created output tracks for LFO frequencies of
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.01Hz}{delay_max=30ms}.wav}{0.01 Hz},
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.02Hz}{delay_max=30ms}.wav}{0.02 Hz},
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.03Hz}{delay_max=30ms}.wav}{0.03 Hz},
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.04Hz}{delay_max=30ms}.wav}{0.04 Hz},
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.05Hz}{delay_max=30ms}.wav}{0.05 Hz},
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.06Hz}{delay_max=30ms}.wav}{0.06 Hz},
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.07Hz}{delay_max=30ms}.wav}{0.07 Hz},
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.08Hz}{delay_max=30ms}.wav}{0.08 Hz},
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.09Hz}{delay_max=30ms}.wav}{0.09 Hz},
+\href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.1Hz}{delay_max=30ms}.wav}{0.1 Hz}. \\ \\
+Varying the peak delay has a more pronounced effect than varying the LFO frequency. In particular, at a peak delay of \href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.08Hz}{delay_max=10ms}.wav}{10 ms}, the synthetic quality of the flanger effect can be heard. As we vary the peak delay up to \href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.08Hz}{delay_max=20ms}.wav}{20 ms}, the synthetic quality is faintly audible; it is complete gone at \href{run:../OutputAudio/chorus_22-004 Original Guitar_{freq=0.08Hz}{delay_max=30ms}.wav}{30 ms}.
+
+\subsection{Further Exploration}
+To see this effect used in a real world application, check out this \href{https://www.youtube.com/watch?v=zmN7fK3fKUE}{YouTube video} that uses a chorus pedal on a guitar.
