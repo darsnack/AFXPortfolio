@@ -1,4 +1,3 @@
-% AFX -- Figure 2.5 - Modulated delay line length
 %
 % Use either the variable integer delay or the variable fractional delay.
 % When using an integer-delay delay line can clearly hear the "zipper noise"
@@ -36,8 +35,11 @@ audio_player.QueueDuration = 0;
 
 % Create the delay line object
 % Create the sinewave oscillators
-
-LFO = dsp.SineWave(0.02,10);
+MaxF=4000;
+MinF=500;
+Maxuse=2*MaxF/audio_reader.SampleRate;
+Minuse=2*MinF/audio_reader.SampleRate;
+LFO = dsp.SineWave((Maxuse-Minuse)/2,10);
 
 % Read, process, and play the audio
 while ~isDone(audio_reader)
@@ -46,9 +48,9 @@ while ~isDone(audio_reader)
     xl=x(:,1);
     xr=x(:,2);
     
-    ch=step(LFO)+0.05;
+    ch=step(LFO)+(Maxuse+Minuse)/2;
     
-    [b,a] = butter(6,ch);
+    [b,a] = butter(2,ch);
     yl=filter(b,a,xl);
     yr=filter(b,a,xr);
     
