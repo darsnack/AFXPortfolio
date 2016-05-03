@@ -11,15 +11,20 @@ clear, close all
 
 % Effect parameters with suggested initial value and typical range:
 gain = 1;
-LFO_freq_Hz = 250; % low-frequency oscillator rate (Hz) / 30Hz / 10Hz to 1kHz
-alpha = 0.8; % low-frequency oscillator depth
+LFO_freq_Hz = 1000; % low-frequency oscillator rate (Hz) / 30Hz / 10Hz to 1kHz
+alpha = 0.6; % low-frequency oscillator depth
 
 % Source audio:
-file_name = 'Mixing Audio Textbook Samples\22 Other Modulation Tools\22-015 Original Bass.wav';
-audio_folder = 'D:\Users\Kyle\Documents\Courses\AFX\Samples';
+file_name = '22-015 Original Bass';
+audio_folder = 'D:\Users\Kyle\Documents\Courses\AFX\AFXPortfolio\InputAudio';
+output_folder = 'D:\Users\Kyle\Documents\Courses\AFX\AFXPortfolio\OutputAudio';
 
-%% Create the audio reader and player objects
-audio_reader = dsp.AudioFileReader([audio_folder '\' file_name]);
+%% Create the audio reader, writer, and player objects
+audio_reader = dsp.AudioFileReader(afx_ifilename(file_name, audio_folder, 'wav'));
+ofile_name = afx_ofilename('ring-modulation', file_name, output_folder, 'wav', ...
+                            {{'freq' LFO_freq_Hz 'Hz'} ...
+                            {'alpha' alpha ''}});
+audio_writer = dsp.AudioFileWriter(ofile_name, 'SampleRate', audio_reader.SampleRate);
 audio_player = dsp.AudioPlayer('SampleRate', audio_reader.SampleRate, ...
                                 'ChannelMappingSource', 'Property', ...
                                 'ChannelMapping', [1 2]);
@@ -46,6 +51,9 @@ while ~isDone(audio_reader)
     
     % Listen to the results
     step(audio_player, y);
+    
+    % Save the results to file
+    step(audio_writer, y);
 end
 
 

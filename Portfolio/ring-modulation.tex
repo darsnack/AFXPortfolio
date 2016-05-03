@@ -1,0 +1,34 @@
+\subsection{Description}
+This mono effect modulates a track with carrier signal to create a wavering robotic sound.
+
+\subsection{Applications}
+Ring modulation can be used to added a robotic sound to a track. Often, it is used on speech or guitar tracks.
+
+\subsection{Principles of Operation}
+Ring modulation is done by modulating the input signal with a carrier signal whose frequency is in the range of the audio. The carrier signal is described by $$m[n] = 1 - \alpha + \alpha \cos(2 \pi f_c n)$$ where $\alpha$ is the depth of the carrier signal and $f_c$ is the carrier frequency. Using $\alpha = 1$, suppressed carrier amplitude modulation is achieved. Decreasing $\alpha$ will add more of the DC term back into the carrier signal. The carrier frequency typically ranges between 10 Hz and 1 kHz. The output is then given by $$y[n] = x[n] m[n]$$ A block diagram can be seen in Figure \ref{fig:ring-modulation-block-diagram}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.7]{ring-modulation-block-diagram.png}
+    \caption{Block Diagram of Chorus Effect}
+    \label{fig:ring-modulation-block-diagram}
+\end{figure}
+
+\subsection{Implementation}
+We used MATLAB to implement the ring modulation effect (see \href{run:../ring_modulation.m}{ring\_modulation.m}). An LFO object was used to generate the signal $\alpha \cos(2 \pi f_c n)$. This was then used to create the signal $m[n]$. We multiplied the generated carrier signal with the input $x[n]$ to produce the output. Each channel of a stereo track was modulated individually.
+
+\subsection{Demo and Discussion}
+The effect is most obvious when comparing these \href{run:../InputAudio/22-001 Original Vocal.wav}{original vocals} to the \href{run:../OutputAudio/ring-modulation_22-001 Original Vocal_{freq=250Hz}{alpha=0.5}.wav}{modulated output} (LFO at 250 Hz and $\alpha = 0.5$). \\ \\
+However, a more pleasing use of this effect is achieved when it is applied to this \href{run:../InputAudio/22-015 Original Bass.wav}{original bass} track. To study the effect, the different values of $\alpha$ were tried:
+\href{run:../OutputAudio/ring-modulation_22-015 Original Bass_{freq=250Hz}{alpha=0.1}.wav}{0.1},
+\href{run:../OutputAudio/ring-modulation_22-015 Original Bass_{freq=250Hz}{alpha=0.5}.wav}{0.5},
+\href{run:../OutputAudio/ring-modulation_22-015 Original Bass_{freq=250Hz}{alpha=0.8}.wav}{0.8},
+\href{run:../OutputAudio/ring-modulation_22-015 Original Bass_{freq=250Hz}{alpha=1.0}.wav}{1.0}. \\
+Comparing the $\alpha = 0.1$ and $\alpha = 1.0$ tracks, the effect of the depth parameter can be heard. With a larger $\alpha$, the rich spectrum of the audio is lost, and several notes sound flat. \\ \\
+Additionally, we can vary the frequency of the LFO. Changing the frequency will change the rate of the wavering in the output audio. At higher frequencies, the wavering is occurring so fast that the output audio sounds robotic. We attempt frequencies of
+\href{run:../OutputAudio/ring-modulation_22-015 Original Bass_{freq=10Hz}{alpha=0.6}.wav}{10 Hz},
+\href{run:../OutputAudio/ring-modulation_22-015 Original Bass_{freq=50Hz}{alpha=0.6}.wav}{50 Hz},
+\href{run:../OutputAudio/ring-modulation_22-015 Original Bass_{freq=100Hz}{alpha=0.6}.wav}{100 Hz},
+\href{run:../OutputAudio/ring-modulation_22-015 Original Bass_{freq=1000Hz}{alpha=0.6}.wav}{1000 Hz}.
+
+\subsection{Further Exploration}
+To learn more about this odd effect, check out this \href{https://www.youtube.com/watch?v=EI9W3KKDwUw}{YouTube video}.

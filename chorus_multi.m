@@ -20,15 +20,20 @@ g_w4 = 0.8;
 g_d = 1;
 LFO_freq_Hz = 0.08; % low-frequency oscillator rate (Hz) / 1Hz / 0.1 to 10Hz
 LFO_depth_samples = 1000; % low-frequency oscillator depth (samples) / 5000 / 65536
-delay_max_ms = 30; % max delay line length (ms) / 0ms / 0 to 1000ms
+delay_max_ms = 20; % max delay line length (ms) / 0ms / 0 to 1000ms
                      % (the delay line max length is 65535 samples)
 
 % Source audio:
-file_name = 'Mixing Audio Textbook Samples\22 Other Modulation Tools\22-004 Original Guitar.wav';
-audio_folder = 'D:\Users\Kyle\Documents\Courses\AFX\Samples';
+file_name = '22-004 Original Guitar';
+audio_folder = 'D:\Users\Kyle\Documents\Courses\AFX\AFXPortfolio\InputAudio';
+output_folder = 'D:\Users\Kyle\Documents\Courses\AFX\AFXPortfolio\OutputAudio';
 
-%% Create the audio reader and player objects
-audio_reader = dsp.AudioFileReader([audio_folder '\' file_name]);
+%% Create the audio reader, writer, and player objects
+audio_reader = dsp.AudioFileReader(afx_ifilename(file_name, audio_folder, 'wav'));
+ofile_name = afx_ofilename('chorus_multi', file_name, output_folder, 'wav', ...
+                            {{'freq' LFO_freq_Hz 'Hz'} ...
+                            {'delay_max' delay_max_ms 'ms'}});
+audio_writer = dsp.AudioFileWriter(ofile_name, 'SampleRate', audio_reader.SampleRate);
 audio_player = dsp.AudioPlayer('SampleRate', audio_reader.SampleRate, ...
                                 'ChannelMappingSource', 'Property', ...
                                 'ChannelMapping', [1 2]);
@@ -102,7 +107,9 @@ while ~isDone(audio_reader)
     
     % Listen to the results
     step(audio_player, y);
-
+    
+    % Save results to file
+    step(audio_writer, y);
 end
 
 
