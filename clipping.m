@@ -24,8 +24,9 @@ output_folder = 'D:\Users\Kyle\Documents\Courses\AFX\AFXPortfolio\OutputAudio';
 
 %% Create the audio reader, writer, and player objects
 audio_reader = dsp.AudioFileReader(afx_ifilename(file_name, audio_folder, 'wav'));
-ofile_name = afx_ofilename('soft-clipping', file_name, output_folder, 'wav', ...
-                            {{'pre-gain' pre_gain ''}});
+ofile_name = afx_ofilename('clipping', file_name, output_folder, 'wav', ...
+                            {{'pre-gain' pre_gain ''}, ...
+                            {'soft-clipping' soft_clipping ''}});
 audio_writer = dsp.AudioFileWriter(ofile_name, 'SampleRate', audio_reader.SampleRate);
 audio_player = dsp.AudioPlayer('SampleRate', audio_reader.SampleRate);
 audio_player.QueueDuration = 0;

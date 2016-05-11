@@ -1,7 +1,6 @@
 %% AFX -- Phaser effect
 
 % References
-% http://www.mathworks.com/help/dsp/ref/dsp.variablefractionaldelay-class.html
 % http://www.mathworks.com/help/dsp/ref/dsp.sinewave-class.html
 
 % Begin with a clean workspace
