@@ -9,13 +9,13 @@
 clear
 
 % Name of this effect
-effect_name = 'stft';
-write_audio = false;
+effect_name = 'FreqBinShift';
+write_audio = true;
 
 %% User interface:
 
 % Effect parameters with suggested initial value and typical range:
-frame_size_ms = 20; % frame size in ms / 20ms / 1ms to 1000ms or higher
+frame_size_ms = 50; % frame size in ms / 20ms / 1ms to 1000ms or higher
 hop_factor = 1/2; % hop factor (overlap amount) / 1/2 / 1/1 to 1/16 or more
 
 % Options:
@@ -28,20 +28,20 @@ plot_cola_error = false;
 shiftfactor=5;
 
 % Audio files -- x = input, y = output:
-x_name = 'FF34_04'; % mono
 x_name = '22-001 Original Vocal';
-%x_name = '11-014 Guitar Src'; % stereo
 x_type = 'wav';
-y_type = 'ogg';
+y_type = 'wav';
 audio_folder = 'C:\Users\Jacques\Documents\AFX\AFXPortfolio\InputAudio';
+audio_folder_out = 'C:\Users\Jacques\Documents\AFX\AFXPortfolio\OutputAudio';
 
 
 %% Create the input/output file names
 x_filename = afx_ifilename(x_name,audio_folder,x_type);
 if write_audio
-    y_filename = afx_ofilename(effect_name,x_name,audio_folder,y_type,{...
+    y_filename = afx_ofilename(effect_name,x_name,audio_folder_out,y_type,{...
         {'N' frame_size_ms 'ms'} ...
-        {'h' hop_factor ''} ...
+        {'h' hop_factor ''}...
+        {'s' shiftfactor ''} ...
         });
 end
 

@@ -1,0 +1,34 @@
+\subsection{Description}
+Pitch Shifting with frequency bins is a way in which one can change the pitch of a given track. The "bin" application stems from taking the Fast Fourier Transform (FFT) of a given waveform. An advantage to this processing technique is its speed, though it must be noted the outcomes do not always sound the best compared to time stretching/compressing. Another plus to using frequency bins for pitch shifting is the ability to define frequencies grouped into each bin and the number of bins to shift by, allowing precise control of the shifting degree.
+
+\subsection{Applications}
+This process is often used in certain types of music and audio production. Some examples of pitch shifting can be found music, making certain vocalists voices sound deeper than they normally are. In film, pitch shifting may be used to make an actor sound younger than they are, such as making a voice higher to sound younger. 
+
+\subsection{Principles of Operation}
+THe basic idea here is that by taking the FFT, one can break the audio waveform into levels of specific frequencies.By taking the amplitudes and phases in these bins, changing the pitch is as simple as moving a bin from one location to another, high for a higher pitch, lower for a lower pitch. THe degree of shift determines how much of a change will take place, and the more numerous the bins over a given range of frequencies the better, giving the user greater control over the amount of shift as well as increased resolution in frequency representation and reconstruction.
+
+\subsection{Implementation Notes}
+diagram can be seen in Figure \ref{fig:flange-block-diagram}.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.7]{flange.png}
+	\caption{Flange Block Diagram}
+	\label{fig:flange-block-diagram}
+\end{figure}
+
+\subsection{Demo and Discussion}
+In using frequency bin shifting, the shift factor has one of the most profound effects, other changes have significant changes as well. First we set the hop size to 20ms and the shift factor to change, first being
+\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=20ms}{h=0.5}{s=5}}{5 Bins}
+and another at
+\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=20ms}{h=0.5}{s=10}}{10 Bins}.
+We then changed the hop size to 50ms, then repeated with 
+\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=50ms}{h=0.5}{s=5}}{5 Bins}
+and again at
+\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=50ms}{h=0.5}{s=10}}{10 Bins}.
+\\ \\
+
+
+\subsection{Further Exploration}
+Pitch shifting is especially active in the guitarist community. For further work and discovery in the FFT bin shift and more about the FFT, check out the link 
+\href{http://www.guitarpitchshifter.com/algorithm.html}{here}. 
+The web page provides good figures and explanations to understand just what each step in the program is accomplishing.
