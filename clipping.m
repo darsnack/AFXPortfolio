@@ -11,7 +11,7 @@ clear, close all
 
 % Effect parameters with suggested initial value and typical range:
 pre_gain = 30; % gain applied before nonlinear effects (dB) / 30 / 0 < g
-soft_clipping = true; % choose between soft or hard clipping / true / true || false
+soft_clipping = false; % choose between soft or hard clipping / true / true || false
 
 % Results parameters
 plot_output = true;
@@ -45,13 +45,12 @@ while ~isDone(audio_reader)
         y = sign(x) .* (1 - exp(-abs(g*x)));
     else
         G = g*x;
-        if G <= -1
-            y = -1;
-        elseif G >= 1
-            y = 1;
-        else
-            y = G;
-        end
+        idx = find(G <= -1);
+        G(idx) = -1;
+        idx = find(G >= 1);
+        G(idx) = 1;
+        
+        y = G;
     end
     
     % Listen to the results
