@@ -17,9 +17,9 @@ clear, close all
 % User interface:
 
 % Effect parameters with suggested initial value and typical range:
-LFO_freq_Hz = 0.5; % low-frequency oscillator rate (Hz) / 1Hz / 0.1 to 10Hz
+LFO_freq_Hz = 1; % low-frequency oscillator rate (Hz) / 1Hz / 0.1 to 10Hz
 LFO_depth_samples = 100; % low-frequency oscillator depth (samples) / 5000 / 65536
-delay_max_ms = 5; % max delay line length (ms) / 0ms / 0 to 1000ms
+delay_max_ms = 4; % max delay line length (ms) / 0ms / 0 to 1000ms
                   % (the delay line max length is 65535 samples)
 
 % Source audio:
