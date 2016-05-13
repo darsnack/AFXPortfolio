@@ -1,30 +1,54 @@
 \subsection{Description}
-Pitch Shifting with frequency bins is a way in which one can change the pitch of a given track. The "bin" application stems from taking the Fast Fourier Transform (FFT) of a given waveform. An advantage to this processing technique is its speed, though it must be noted the outcomes do not always sound the best compared to time stretching/compressing. Another plus to using frequency bins for pitch shifting is the ability to define frequencies grouped into each bin and the number of bins to shift by, allowing precise control of the shifting degree.
+Pitch Shifting with frequency bins is a way in which one can change the pitch of a given track. The bin application stems from taking the Fast Fourier Transform (FFT) of a given waveform. An advantage to this processing technique is its speed, though it must be noted the outcomes do not always sound the best compared to time stretching/compressing. Another plus to using frequency bins for pitch shifting is the ability to define frequencies grouped into each bin and the number of bins to shift by, allowing precise control of the shifting degree. The second part is in compression, where a certain amount of information, particularly from the low end, is thrown out.
 
 \subsection{Applications}
-This process is often used in certain types of music and audio production. Some examples of pitch shifting can be found music, making certain vocalists voices sound deeper than they normally are. In film, pitch shifting may be used to make an actor sound younger than they are, such as making a voice higher to sound younger. 
+This process is often used in certain types of music and audio production. Some examples of pitch shifting can be found music, making certain vocalists voices sound deeper than they normally are. In film, pitch shifting may be used to make an actor sound younger than they are, such as making a voice higher to sound younger. The compression technique gives an interesting sound, preserving certain frequencies while throwing out others, producing a hollow sounding audio track.
 
 \subsection{Principles of Operation}
-THe basic idea here is that by taking the FFT, one can break the audio waveform into levels of specific frequencies.By taking the amplitudes and phases in these bins, changing the pitch is as simple as moving a bin from one location to another, high for a higher pitch, lower for a lower pitch. THe degree of shift determines how much of a change will take place, and the more numerous the bins over a given range of frequencies the better, giving the user greater control over the amount of shift as well as increased resolution in frequency representation and reconstruction.
+THe basic idea here is that by taking the FFT, one can break the audio waveform into levels of specific frequencies.By taking the amplitudes and phases in these bins, changing the pitch is as simple as moving a bin from one location to another, high for a higher pitch, lower for a lower pitch. The degree of shift determines how much of a change will take place, and the more numerous the bins over a given range of frequencies the better, giving the user greater control over the amount of shift as well as increased resolution in frequency representation and reconstruction. 
+
+The Compression simply upsamples the audio file and then throws out the middle section, leaving fewer frequencies spread out along the spectrum. 
 
 \subsection{Implementation Notes}
-diagram can be seen in Figure \ref{fig:flange-block-diagram}.
+To implement this effect, we leveraged the FFT function, part of the DSP toolbox, in MATLAB. As the program stepped through each windowed chunk of audio, the program would take the FFT, producing an array of values, each index corresponding to a small range of frequencies. The program then circularly shifted the array, careful to shift the upper and lower halves in opposite direction to maintain positive and negative frequency bins on the appropriate sides. A visual representation is shown in figure \ref{fig:bin-shift-block-diagram}
+
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.7]{flange.png}
-	\caption{Flange Block Diagram}
-	\label{fig:flange-block-diagram}
+	\includegraphics[scale=0.6]{binshif.png}
+	\caption{Bin Shift Process}
+	\label{fig:bin-shift-block-diagram}
 \end{figure}
 
+In creating the spectrum compression effect, we had the stepped audio broken into bins as done before with the FFT. After we obtained the spectrum, we upsampled the spectrum array by the factor given and then cut out the middle part during the rebuilding of the array phase, ending the first section at (StreachFactor-1/4)*ArraySize and started the next array chunk at (StreachFactor-1/2)*ArraySize. A visualization of the precess is shown in figure \ref{fig:bin-shift-block-diagram}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.6]{compress.png}
+	\caption{Compression Process}
+	\label{fig:compress-block-diagram}
+\end{figure}
+
+
 \subsection{Demo and Discussion}
-In using frequency bin shifting, the shift factor has one of the most profound effects, other changes have significant changes as well. First we set the hop size to 20ms and the shift factor to change, first being
-\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=20ms}{h=0.5}{s=5}}{5 Bins}
+In using frequency bin shifting, the shift factor has one of the most profound effects, other changes have significant changes as well. First we set the hop size to 10ms and the shift factor to change, first being
+\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=10ms}{h=0.25}{s=5}.wav}{5 Bins up}
 and another at
-\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=20ms}{h=0.5}{s=10}}{10 Bins}.
-We then changed the hop size to 50ms, then repeated with 
-\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=50ms}{h=0.5}{s=5}}{5 Bins}
+\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=10ms}{h=0.25}{s=-5}.wav}{5 Bins down}.
+We then changed the hop size to 20ms, then repeated with 
+\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=20ms}{h=0.25}{s=5}.wav}{5 Bins up}
 and again at
-\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=50ms}{h=0.5}{s=10}}{10 Bins}.
+\href{run:../OutputAudio/FreqBinShift_22-001 Original Vocal_{N=20ms}{h=0.25}{s=-5}.wav}{5 Bins down}.
+\\ \\
+We found that by lowering the hop size, some of the harsh roboticization was reduces and the audio sounded more fluid.
+
+For spectrum stretching we used th esame audio file, setting the hop size to 10ms and the shift factor to change, first being
+\href{run:../OutputAudio/Streatch_22-001 Original Vocal_{N=10ms}{h=0.25}{s=10}.wav}{a factor of 10}
+and another at
+\href{run:../OutputAudio/Streatch_22-001 Original Vocal_{N=10ms}{h=0.25}{s=20}.wav}{a factor of 20}.
+We then changed the hop size to 20ms, then repeated with 
+\href{run:../OutputAudio/Streatch_22-001 Original Vocal_{N=20ms}{h=0.25}{s=10}.wav}{a factor of 10}
+and again at
+\href{run:../OutputAudio/Streatch_22-001 Original Vocal_{N=20ms}{h=0.25}{s=20}.wav}{a factor of 20}.
 \\ \\
 
 
