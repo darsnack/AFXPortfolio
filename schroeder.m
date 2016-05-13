@@ -84,7 +84,9 @@ while ~isDone(audio_reader)
     end
     
     % Check for clipping
-    y = y / max(abs(y(:)));
+    if (max(abs(y(:))) > 0.02)
+        y = y / max(abs(y(:)));
+    end
     
     % Listen to the results
     step(audio_player, y);

@@ -14,8 +14,8 @@ pre_gain = 30; % gain applied before nonlinear effects (dB) / 30 / 0 < g
 soft_clipping = false; % choose between soft or hard clipping / true / true || false
 
 % Results parameters
-plot_output = true;
-write_output = false;
+plot_output = false;
+write_output = true;
 
 % Source audio:
 file_name = '22-001 Original Vocal';
@@ -71,5 +71,6 @@ end
 %% Clean up
 release(audio_reader);
 release(audio_player);
+release(audio_writer);
 
 % All done!
