@@ -8,11 +8,11 @@ clear, close all
 
 %% User Interface
 % Phaser parameters:
-scale_factor = 0.5;
+scale_factor = 1.5;
 
 % STFT parameters:
 frame_size = 20; % Frame size (ms) / 20 / 1 <= frame_size <= 1000
-hop_factor = 1/2; % hop factor or overlap amount / 1/2 / 1/1 <= hop_factor <= 1/16
+hop_factor = 1/8; % hop factor or overlap amount / 1/2 / 1/1 <= hop_factor <= 1/16
 
 % Source audio:
 enable_noise = false;

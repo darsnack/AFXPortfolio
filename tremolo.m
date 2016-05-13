@@ -8,10 +8,10 @@ clear, close all
 
 %% User Interface
 depth = 1; % level of effect / 1 / 0 <= depth <= 1
-f_LFO = 10; % LFO frequency for carrier (Hz) / 1 / 0.5 <= f_LFO <= 20
+f_LFO = 20; % LFO frequency for carrier (Hz) / 1 / 0.5 <= f_LFO <= 20
 
 % Results parameters
-write_output = false;
+write_output = true;
 
 % Source audio:
 file_name = '22-004 Original Guitar';

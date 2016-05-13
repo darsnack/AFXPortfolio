@@ -19,6 +19,9 @@ f_LFO = 0.2; % LFO frequency or effect rate / 1 / 0.01 <= f_LFO <= 10
 frame_size = 20; % Frame size (ms) / 20 / 1 <= frame_size <= 1000
 hop_factor = 1/4; % hop factor or overlap amount / 1/2 / 1/1 <= hop_factor <= 1/16
 
+% Results parameters
+write_output = false;
+
 % Source audio:
 enable_noise = false;
 file_name = '11-014 Guitar Src';
@@ -157,9 +160,18 @@ while ~isDone(audio_reader)
     
     % Spectrum analyzer
     step(spec, yolabuffer(1:hop_size,:));
+
+    % Write audio
+    if write_output
+        step(audio_writer, yolabuffer(1:hop_size));
+    end
     
     yolabuffer(1:frame_size_N-hop_size,:) = yolabuffer(hop_size+1:frame_size_N,:);
     yolabuffer(frame_size_N-hop_size+1:frame_size_N,:) = 0;
     
     firstpass = false;
 end
+
+release(audio_player);
+release(audio_reader);
+release(audio_writer);
