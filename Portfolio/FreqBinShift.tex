@@ -5,12 +5,12 @@ Pitch Shifting with frequency bins is a way in which one can change the pitch of
 This process is often used in certain types of music and audio production. Some examples of pitch shifting can be found music, making certain vocalists voices sound deeper than they normally are. In film, pitch shifting may be used to make an actor sound younger than they are, such as making a voice higher to sound younger. The compression technique gives an interesting sound, preserving certain frequencies while throwing out others, producing a hollow sounding audio track.
 
 \subsection{Principles of Operation}
-THe basic idea here is that by taking the FFT, one can break the audio waveform into levels of specific frequencies.By taking the amplitudes and phases in these bins, changing the pitch is as simple as moving a bin from one location to another, high for a higher pitch, lower for a lower pitch. The degree of shift determines how much of a change will take place, and the more numerous the bins over a given range of frequencies the better, giving the user greater control over the amount of shift as well as increased resolution in frequency representation and reconstruction. 
+By taking the FFT, one can break the audio waveform into levels of specific frequencies.By taking the amplitudes and phases in these bins, changing the pitch is as simple as moving a bin from one location to another, high for a higher pitch, lower for a lower pitch. The degree of shift determines how much of a change will take place, and the more numerous the bins over a given range of frequencies the better, giving the user greater control over the amount of shift as well as increased resolution in frequency representation and reconstruction. 
 
 The Compression simply upsamples the audio file and then throws out the middle section, leaving fewer frequencies spread out along the spectrum. 
 
 \subsection{Implementation Notes}
-To implement this effect, we leveraged the FFT function, part of the DSP toolbox, in MATLAB. As the program stepped through each windowed chunk of audio, the program would take the FFT, producing an array of values, each index corresponding to a small range of frequencies. The program then circularly shifted the array, careful to shift the upper and lower halves in opposite direction to maintain positive and negative frequency bins on the appropriate sides. A visual representation is shown in figure \ref{fig:bin-shift-block-diagram}
+To implement this effect, we leveraged the FFT function, part of the DSP toolbox, in MATLAB. As the program stepped through each windowed chunk of audio, the program would take the FFT, producing an array of values, each index corresponding to a small range of frequencies. The program then circularly shifted the array, careful to shift the upper and lower halves in opposite direction to maintain positive and negative frequency bins on the appropriate sides. A visual representation is shown in Figure \ref{fig:bin-shift-block-diagram}
 
 \begin{figure}[ht]
 	\centering
@@ -19,7 +19,7 @@ To implement this effect, we leveraged the FFT function, part of the DSP toolbox
 	\label{fig:bin-shift-block-diagram}
 \end{figure}
 
-In creating the spectrum compression effect, we had the stepped audio broken into bins as done before with the FFT. After we obtained the spectrum, we upsampled the spectrum array by the factor given and then cut out the middle part during the rebuilding of the array phase, ending the first section at (StreachFactor-1/4)*ArraySize and started the next array chunk at (StreachFactor-1/2)*ArraySize. A visualization of the precess is shown in figure \ref{fig:bin-shift-block-diagram}
+In creating the spectrum compression effect, we had the stepped audio broken into bins as done before with the FFT. After we obtained the spectrum, we upsampled the spectrum array by the factor given and then cut out the middle part during the rebuilding of the array phase, ending the first section at $(StreachFactor-1/4) \times ArraySize$ and started the next array chunk at $(StreachFactor-1/2) \times ArraySize$. A visualization of the precess is shown in Figure \ref{fig:bin-shift-block-diagram}
 
 \begin{figure}[ht]
 	\centering
