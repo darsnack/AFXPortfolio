@@ -15,8 +15,8 @@ write_audio = true;
 %% User interface:
 
 % Effect parameters with suggested initial value and typical range:
-frame_size_ms = 50; % frame size in ms / 20ms / 1ms to 1000ms or higher
-hop_factor = 1/2; % hop factor (overlap amount) / 1/2 / 1/1 to 1/16 or more
+frame_size_ms = 20; % frame size in ms / 20ms / 1ms to 1000ms or higher
+hop_factor = 1/4; % hop factor (overlap amount) / 1/2 / 1/1 to 1/16 or more
 
 % Options:
 use_test_tone = false;
@@ -25,7 +25,7 @@ plot_complete_output = false;
 listen_to_complete_output = false;
 plot_cola_error = false;
 
-shiftfactor=5;
+shiftfactor=-5;
 
 % Audio files -- x = input, y = output:
 x_name = '22-001 Original Vocal';
@@ -95,11 +95,8 @@ if plot_cola_error xsink = dsp.SignalSink; end
 
 %% Initialize variables before the main loop
 firstpass = true;
-Xpl=zeros(frame_size_N,2);
-Ypl=zeros(frame_size_N,2);
-Omegaha(:,1)=transpose(2*pi*hop_factor*(0:frame_size_N-1))*1/frame_size_N;
-Omegaha(:,2)=transpose(2*pi*hop_factor*(0:frame_size_N-1))*1/frame_size_N;
-scale_factor=2;
+
+
 
 %% Read, process, play, and write the audio
 while ~isDone(audio_reader)
@@ -123,33 +120,29 @@ while ~isDone(audio_reader)
     X = step(xfft,xfw);
     
     % Convert to polar form (magnitude and phase)
-    Xm = abs(X);
-    Xp = angle(X);   
+    Xm = fftshift(abs(X));
+    Xp = fftshift(angle(X));   
     
     % ----- Begin processing:
     % ---
-    
-    Xdp=Omegaha+afx_princarg(Xp-Xpl-Omegaha);
-    Xpl=Xp;
-    Ypi=afx_princarg(Ypl+Xdp*scale_factor);
-    Ypl=Ypi;
+       
     % -
     Xm1=Xm(1:(arraysize/2),:);
     Xm2=Xm((arraysize/2+1):arraysize,:);
-    Xp1=Ypi(1:(arraysize/2),:);
-    Xp2=Ypi((arraysize/2+1):arraysize,:);
+    Xp1=Xp(1:(arraysize/2),:);
+    Xp2=Xp((arraysize/2+1):arraysize,:);
     
     % transparent pass-through; useful for COLA check
-    Ym = [circshift(Xm1,shiftfactor);circshift(Xm2,-shiftfactor)];
-    Yp = [circshift(Xp1,shiftfactor);circshift(Xp2,-shiftfactor)];
+    Ym = [circshift(Xm1,-shiftfactor);circshift(Xm2,shiftfactor)];
+    Yp = [circshift(Xp1,-shiftfactor);circshift(Xp2,shiftfactor)];
     
     % -
     % ---
     % ----- end processing.
     
     % Reassemble the output magnitude/phase as a complex value
-    Y = Ym .* exp(j*Yp);
-    
+    Y = fftshift(Ym) .* exp(j*fftshift(Yp));
+   
     % Compute the IFFT of the processed frame
     y = step(yifft,Y);
     
