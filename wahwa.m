@@ -49,8 +49,7 @@ Minuse=2*MinF/audio_reader.SampleRate;
 LFO = dsp.SineWave((Maxuse-Minuse)/2,LFO_freq_Hz);
 LFO.SamplesPerFrame = 1;
 
-LFO2 = dsp.SineWave((Maxuse-Minuse)/2,40);
-LFO2.SamplesPerFrame = 1;
+
 
 
 % Read, process, and play the audio
@@ -60,7 +59,7 @@ while ~isDone(audio_reader)
     xl=100*x(:,1);
     xr=100*x(:,2);
     
-    ch=step(LFO)++(Maxuse+Minuse)/2;
+    ch=step(LFO)+(Maxuse+Minuse)/2;
     
     [b,a] = butter(2,ch);
     yl=filter(b,a,xl);
