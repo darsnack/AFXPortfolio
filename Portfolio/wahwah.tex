@@ -1,0 +1,51 @@
+\subsection{Description}
+The Wahwah effect is one which is so widely used and recognizable. While simple in implementation and theory, this can add variation to an instrument or vocalist's sound, oftentimes controlled live by the user through an effects pedal. Wahwah uses a variable input to control the application of the effect, slowly increasing and decreasing the effect.
+
+\subsection{Applications}
+The wahwah effect is most often used on guitars; think of a disco song with the guitar's sound seemingly going in and out and making the characteristic "wah-wah" sound.
+
+\subsection{Principles of Operation}
+The wahwah effect is simple yet genius in implementation. The effect takes an incoming audio signal and passes it through a lowpass filter, of which has an easily controlled corner frequency. By sweeping the corner frequency up and down, one obtains the characteristic sound.
+
+\subsection{Implementation Notes}
+To implement this effect, we used MATLAB (see \href{run:../wahwah.m}{wahwah.m}). Starting with the basic audio file implementation from class to handle importing and playing the audio files, we added a filtering section to the stepping function. By using a variable LFO, we then were able to vary the corner frequncy of the filter command to sweep it back and forth, thus achieving the wahwah effect as the audio clip played. A block diagram can be seen in Figure \ref{fig:Wahwah-block-diagram}.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.7]{wahwah.png}
+	\caption{Basic Wah-wah Filter Block Diagram}
+	\label{fig:Wahwah-block-diagram}
+\end{figure}
+
+We then implemented an autowah function in MATLAB (see \href{run:../autowah.m}{wahwah.m}). that would vary the depth of the wah as the audio file progressed. We implemented this by having a secondary LFO control the amount of wah applied to the audio file, a block diagram of which can be seen in \ref{fig:autowah-block-diagram}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.7]{autowah.png}
+	\caption{Basic Wah-wah Filter Block Diagram}
+	\label{fig:autowah-block-diagram}
+\end{figure}
+
+
+\subsection{Demo and Discussion}
+We used the guitar track from the textbook's audio samples to demonstrate the Wahwah effect. We adjusted the LFO and maximum delay using a
+\href{run:../OutputAudio/WahWah_22-004 Original Guitar_{freq=10Hz}{delay_max=5ms}.wav}{5ms}
+delay and an
+\href{run:../OutputAudio/WahWah_22-004 Original Guitar_{freq=10Hz}{delay_max=8ms}.wav}{8ms}
+ delay using a 1Hz LFO. We then tried used a 0.5Hz LFO with a
+\href{run:../OutputAudio/WahWah_22-004 Original Guitar_{freq=20Hz}{delay_max=5ms}.wav}{5ms}
+and an
+\href{run:../OutputAudio/WahWah_22-004 Original Guitar_{freq=20Hz}{delay_max=8ms}.wav}{8ms}
+delay.
+\\ \\
+We then implemented an autowah function by adding a second LFO with a variable frequency from 1-2Hz. The results of our adjustments include using a 1Hz Wah LFO and a
+\href{run:../OutputAudio/WahWah_22-004 Original Guitar_{freq=10Hz}{delay_max=5ms}{LOfreq=1Hz}.wav}{1 Hz}
+and a
+\href{run:../OutputAudio/WahWah_22-004 Original Guitar_{freq=10Hz}{delay_max=5ms}{LOfreq=2Hz}.wav}{2 Hz}
+second LFO. We then used a 0.5 Hz Wah LFO with a
+\href{run:../OutputAudio/WahWah_22-004 Original Guitar_{freq=20Hz}{delay_max=5ms}{LOfreq=1Hz}.wav}{1 Hz}
+and an
+\href{run:../OutputAudio/WahWah_22-004 Original Guitar_{freq=20Hz}{delay_max=5ms}{LOfreq=2Hz}.wav}{2 Hz}
+second LFO.
+
+\subsection{Further Exploration}
+There are almost too many songs to count that leverage this effect in their sound. A video that can be useful for further understanding of how a Wahwah works can be found \href{https://www.youtube.com/watch?v=R87mpsSAHXg}{here}. Most any 60s or 70s song use the wah effect, though modern music had developed an affinity to it as well, 
