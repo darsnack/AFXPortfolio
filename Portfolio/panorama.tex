@@ -1,0 +1,22 @@
+\subsection{Description}
+This stereo effect alters the gain of each channel to create a sound stage with a perceived source. The location of the perceived source can be moved by changing the gains.
+
+\subsection{Applications}
+Panorama is frequently used in almost all musical production. With the use of panorama, a listener perceives a particular instrument or vocalist coming from a unique location in the sound stage.
+
+\subsection{Principles of Operation}
+Panorama is simply adjusting the gain of each channel according to the angle of the perceived source relative to the listener (assuming the listner is centered between the two speakers). In order to maintain the overall power, the gain for each channel, $g_L$ and $g_R$, must obey the equation $g_L^2 + g_R^2 = 1$. As a result, a natural choice for the gain equations can be found in Equation \ref{eq:panorama-gain} where $\phi$ is the angle between the perceived source and the listener.
+\begin{equation}
+    g_L = \cos(\phi + \frac{\pi}{4}) \quad
+    g_R = \cos(\phi - \frac{\pi}{4})
+    \label{eq:panorama-gain}
+\end{equation}
+
+\subsection{Implementation}
+This effect was implemented in MATLAB (see \href{run:panorama.m}{panorama.m}). In order to demonstrate the effect of different $\phi$, an LFO was implemented in MATLAB to oscillate the value of $\phi$ between -45 and 45 degrees according to a sine wave.
+
+\subsection{Demo and Discussion}
+There aren't any parameters to change for this effect, but the output can be heard on \href{run:../InputAudio/22-004 Original Guitar.wav}{an original guitar sample} for an LFO frequency of \href{run:../OutputAudio/panorama_22-004 Original Guitar_{f_LFO=0.1Hz}.wav}{0.1 Hz}.
+
+\subsection{Further Exploration}
+Panorama can be found in almost any stereo music track. However, Led Zeppelin's \href{https://www.youtube.com/watch?v=F0YoKzsjE-0}{Black Dog} has an obvious use of panorama at the start of the song.

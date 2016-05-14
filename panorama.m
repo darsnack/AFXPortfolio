@@ -10,7 +10,7 @@ clear, close all
 f_LFO = 0.1; % LFO frequency for panning (Hz) / 1 / 0.1 <= f_LFO <= 10
 
 % Results parameters
-write_output = false;
+write_output = true;
 
 % Source audio:
 file_name = '22-004 Original Guitar';

@@ -1,4 +1,4 @@
-%% AFX -- Phaser effect
+%% AFX -- Time scaling
 
 % References
 % http://www.mathworks.com/help/dsp/ref/dsp.sinewave-class.html
@@ -14,8 +14,10 @@ scale_factor = 1.5;
 frame_size = 20; % Frame size (ms) / 20 / 1 <= frame_size <= 1000
 hop_factor = 1/8; % hop factor or overlap amount / 1/2 / 1/1 <= hop_factor <= 1/16
 
+% Results parameter
+write_output = true;
+
 % Source audio:
-enable_noise = false;
 file_name = '22-001 Original Vocal';
 audio_folder = 'D:\Users\Kyle\Documents\Courses\AFX\AFXPortfolio\InputAudio';
 output_folder = 'D:\Users\Kyle\Documents\Courses\AFX\AFXPortfolio\OutputAudio';
@@ -25,10 +27,6 @@ audio_reader = dsp.AudioFileReader(afx_ifilename(file_name, audio_folder, 'wav')
 ofile_name = afx_ofilename('time-scaling', file_name, output_folder, 'wav', ...
                             {{'scale_factor' scale_factor ''}});
 audio_writer = dsp.AudioFileWriter(ofile_name, 'SampleRate', audio_reader.SampleRate);
-audio_player = dsp.AudioPlayer('SampleRate', scale_factor * audio_reader.SampleRate, ...
-                                'ChannelMappingSource', 'Property', ...
-                                'ChannelMapping', [1 2]);
-audio_player.QueueDuration = 0;
 
 %% STFT Setup
 % Force the frame size to be a power of two and ensure that hop size is an
@@ -112,6 +110,11 @@ while ~isDone(audio_reader)
     % Store to sink
     step(ysink,yolabuffer(1:h_s,:));
     
+    % Write to file
+    if write_output
+        step(audio_writer, yolabuffer(1:h_s, :));
+    end
+    
     yolabuffer(1:frame_size_N-h_a,:) = yolabuffer(h_a+1:frame_size_N,:);
     yolabuffer(frame_size_N-h_a+1:frame_size_N,:) = 0;
     
@@ -119,6 +122,6 @@ while ~isDone(audio_reader)
 end
 
 yc = ysink.Buffer;
-ap = audioplayer(yc,scale_factor*audio_reader.SampleRate);
+ap = audioplayer(yc,audio_reader.SampleRate);
 play(ap)
 disp('Enter pause(ap), resume(ap), stop(ap), or play(ap)');

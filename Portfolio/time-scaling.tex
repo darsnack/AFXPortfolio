@@ -1,0 +1,26 @@
+\subsection{Description}
+This mono effect uses short-term Fourier transform (STFT) to time stretch or compress a signal without altering the pitch. Alternatively, the signal can be pitch shifted without much distortion or time scale altering.
+
+\subsection{Applications}
+While time scaling can be memory intensive, so it is not typically used. However, pitch shifting is used extensively, especially in hip-hop music where producers normally pitch shift sample audio up or down.
+
+\subsection{Principles of Operation}
+Both time scaling and pitch shifting make use of the STFT hop size. Normally, the hop size is used twice - once to advance the windowing buffer (analysis) and once to accumulate the output buffer (synthesis). In order to stretch by a factor of $R$, the synthesis hop size, $h_s$, must be $R$ times the analysis hop size, $h_a$. Unfortunately, this can result in a noncontinuous phase. So, a phase correction must be implemented according to Equations \ref{eq:scaling-phase-shift} and \ref{eq:scaling-phase-correction}.
+\begin{equation}
+    \phi_d[k] = \omega_k h_a + \mathrm{princ}(\phi[k] - phi[k - 1] - \omega_k h_a)
+    \label{eq:scaling-phase-shift}
+\end{equation}
+\begin{equation}
+    \phi_{out}[k] = \mathrm{princ}(\phi_{out}[k] + R \phi_d[k])
+    \label{eq:scaling-phase-correction}
+\end{equation}
+Pitch shifting follows the same process. However, in this case we don't want $RN$ samples per a frame, just $N$ samples. The easiest way to accomplish this is to play or write the output audio at a sample rate of $R f_s$, where $f_s$ is the original audio sample rate.
+
+\subsection{Implementation}
+This effect was implemented in \href{run:time_scaling.m}{time\_scaling.m}. The implementation uses a while loop with two buffers to maintain the overlap and add that is key to an STFT. The frame size was 20 ms and the hop factor was 1/8. A similar MATLAB script was implemented (\href{run:pitch_shifting.m}{pitch\_shifting.m}) where the audio player and writer objects used a sample rate that is $R f_s$.
+
+\subsection{Demo and Discussion}
+We applied this effect to \href{run:../InputAudio/22-001 Original Vocal.wav}{an original vocal sample} for various scale factors. The effect can be heard for scale factors of \href{run:../OutputAudio/time-scaling_22-001 Original Vocal_{scale_factor=0.5}.wav}{0.5}, \href{run:../OutputAudio/time-scaling_22-001 Original Vocal_{scale_factor=0.8}.wav}{0.8}, \href{run:../OutputAudio/time-scaling_22-001 Original Vocal_{scale_factor=1.2}.wav}{1.2}, and \href{run:../OutputAudio/time-scaling_22-001 Original Vocal_{scale_factor=1.5}.wav}{1.5}. Notice how even though the sample takes longer or slower to play, the pitch of the vocalist remains the same.
+
+\subsection{Further Exploration}
+A good video on the use of time scaling in a mixing environment can be found in \href{https://www.youtube.com/watch?v=ArEPtQ9tQfA}{this YouTube video}. A popular example pitch shifting can be heard in the White Stripes \href{https://www.youtube.com/watch?v=0J2QdDbelmY}{Seven Nation Army}. The main guitar riff is pitch shifted down to place the notes below the physical range of a guitar.

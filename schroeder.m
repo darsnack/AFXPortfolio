@@ -11,10 +11,10 @@ clear, close all
 % an appropriate number of comb and all pass filters will be used based on
 %  on the array length
 loop_times = [29.7 37.1 41.1 43.7]; % loop time (ms) / 30 <= loop_times <= 45 
-RT60 = 5; % reverb time (s) / 5 / 1 <= RT60 <= 10
+RT60 = 10; % reverb time (s) / 5 / 1 <= RT60 <= 10
 
 % Results parameters
-write_output = false;
+write_output = true;
 
 % Source audio:
 file_name = '22-004 Original Guitar';
