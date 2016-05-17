@@ -1,0 +1,28 @@
+\subsection{Description}
+This mono effect is used to either mimic the sound of track in a particular room or space. Additionally, musicians may use reverb to depth to an instrument.
+
+\subsection{Applications}
+Reverb is often used to make a track sound like it is played in a particular room or space. Musicians may also use reverb to add depth to a track.
+
+\subsection{Principles of Operation}
+Schroeder's reverb is a technique used to mimic the natural reverb of a room. Users can create a space by specifying two variables - the loop time, $\tau$, and the RT60 time (reverb length). The loop time is the time it takes an impulse to feedback in a comb filter or all-pass filter feedback loop. The RT60 time is an industry metric used to measure how long it takes a reverb tail to reach 60 dB below its original value. The structure is best described by the block diagram in Figure \ref{fig:schroeder-block-diagram}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.5]{schroeder.png}
+    \caption{Block Diagram of Schroeder's Reverb}
+    \label{fig:schroeder-block-diagram}
+\end{figure}
+The gain for a filter can be calculated from Equation \ref{eq:schroeder-gain}.
+\begin{equation}
+    g = 10^{-3 \tau / RT60}
+    \label{eq:schroeder-gain}
+\end{equation}
+
+\subsection{Implementation}
+Our implementation of Schroeder's reverb is a unique \href{run:../schroeder.m}{MATLAB script}. Users can specify an array of loop times for the comb filters of arbitrary length and a single RT60 for all the comb filters. The script will then calculate the appropriate number of all-pass filters and the correct loop times and RT60 times for the all-pass filters. This makes for a flexible implementation without an explosion of user parameters.
+
+\subsection{Demo and Discussion}
+We applied the effect to \href{run:../InputAudio/22-004 Original Guitar.wav}{an original guitar sample} for comb filter RT60 times of \href{run:../OutputAudio/schroeder_22-004 Original Guitar_{RT60=1s}.wav}{1 s}, \href{run:../OutputAudio/schroeder_22-004 Original Guitar_{RT60=5s}.wav}{5 s}, and \href{run:../OutputAudio/schroeder_22-004 Original Guitar_{RT60=10s}.wav}{10 s}. Though the reverb effect is subtle, you can hear the repetitive sound of a higher RT60 time for the 10 s output.
+
+\subsection{Further Exploration}
+To learn more about reverb, check out \href{https://www.youtube.com/watch?v=TZG2K0J_A3c}{this YouTube video}.

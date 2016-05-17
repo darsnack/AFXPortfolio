@@ -20,7 +20,7 @@ frame_size = 20; % Frame size (ms) / 20 / 1 <= frame_size <= 1000
 hop_factor = 1/4; % hop factor or overlap amount / 1/2 / 1/1 <= hop_factor <= 1/16
 
 % Results parameters
-write_output = false;
+write_output = true;
 
 % Source audio:
 enable_noise = false;

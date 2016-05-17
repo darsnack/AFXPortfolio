@@ -8,7 +8,7 @@ The wahwah effect is most often used on guitars; think of a disco song with the 
 The wahwah effect is simple yet genius in implementation. The effect takes an incoming audio signal and passes it through a lowpass filter, of which has an easily controlled corner frequency. By sweeping the corner frequency up and down, one obtains the characteristic sound.
 
 \subsection{Implementation Notes}
-To implement this effect, we used MATLAB (see \href{run:../wahwah.m}{wahwah.m}). Starting with the basic audio file implementation from class to handle importing and playing the audio files, we added a filtering section to the stepping function. By using a variable LFO, we then were able to vary the corner frequncy of the filter command to sweep it back and forth, thus achieving the wahwah effect as the audio clip played. A block diagram can be seen in Figure \ref{fig:Wahwah-block-diagram}.
+To implement this effect, we used MATLAB (see \href{run:../wahwa.m}{wahwa.m}). Starting with the basic audio file implementation from class to handle importing and playing the audio files, we added a filtering section to the stepping function. By using a variable LFO, we then were able to vary the corner frequncy of the filter command to sweep it back and forth, thus achieving the wahwah effect as the audio clip played. A block diagram can be seen in Figure \ref{fig:Wahwah-block-diagram}.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.6]{wahwah.png}
@@ -16,7 +16,7 @@ To implement this effect, we used MATLAB (see \href{run:../wahwah.m}{wahwah.m}).
 	\label{fig:Wahwah-block-diagram}
 \end{figure}
 
-We then implemented an autowah function in MATLAB (see \href{run:../autowah.m}{wahwah.m}). that would vary the depth of the wah as the audio file progressed. We implemented this by having a secondary LFO control the amount of wah applied to the audio file, a block diagram of which can be seen in \ref{fig:autowah-block-diagram}
+We then implemented an autowah function in MATLAB (see \href{run:../autowah.m}{autowah.m}). that would vary the depth of the wah as the audio file progressed. We implemented this by having a secondary LFO control the amount of wah applied to the audio file, a block diagram of which can be seen in \ref{fig:autowah-block-diagram}
 
 \begin{figure}[ht]
 	\centering
@@ -48,4 +48,4 @@ and an
 second LFO.
 
 \subsection{Further Exploration}
-There are almost too many songs to count that leverage this effect in their sound. A video that can be useful for further understanding of how a Wahwah works can be found \href{https://www.youtube.com/watch?v=R87mpsSAHXg}{here}. Most any 60s or 70s song use the wah effect, though modern music had developed an affinity to it as well, 
+There are almost too many songs to count that leverage this effect in their sound. A video that can be useful for further understanding of how a Wahwah works can be found \href{https://www.youtube.com/watch?v=R87mpsSAHXg}{here}. Most any 60s or 70s song use the wah effect, though modern music had developed an affinity to it as well,

@@ -18,7 +18,7 @@ The operation is fairly similar to amplitude modulation. However, while AM signa
 \end{figure}
 
 \subsection{Implementation}
-Tremolo is implemented in MATLAB using an LFO to generate the $\alpha \cos(\omega n)$ term in Equation \ref{eq:tremolo-carrier}. Time domain processing is then applied to mix the carrier signal with the input signal.
+Tremolo is implemented in MATLAB (see \href{run:../tremolo.m}{tremolo.m}) using an LFO to generate the $\alpha \cos(\omega n)$ term in Equation \ref{eq:tremolo-carrier}. Time domain processing is then applied to mix the carrier signal with the input signal.
 
 \subsection{Demo and Discussion}
 The effect was applied to this \href{run:../InputAudio/22-004 Original Guitar.wav}{original guitar track}. The effect can be heard for a carrier frequency of \href{run:../OutputAudio/tremolo_22-004 Original Guitar_{depth=1}{f_LFO=5Hz}.wav}{5 Hz}. To hear how changing the carrier frequency changes the output, the effect was applied for \href{run:../OutputAudio/tremolo_22-004 Original Guitar_{depth=1}{f_LFO=1Hz}.wav}{1 Hz}, \href{run:../OutputAudio/tremolo_22-004 Original Guitar_{depth=1}{f_LFO=10Hz}.wav}{10 Hz}, and \href{run:../OutputAudio/tremolo_22-004 Original Guitar_{depth=1}{f_LFO=20Hz}.wav}{20 Hz} as well.

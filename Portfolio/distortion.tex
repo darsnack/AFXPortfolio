@@ -28,7 +28,7 @@ Soft clipping can be implemented using Equation \ref{eq:soft-clipping}, and hard
 \end{equation}
 
 \subsection{Implementation}
-Distortion was implemented in MATLAB using the equations in the previous section. The gain is specified in dB, and the script reinterprets this parameter as the linear gain, $G$.
+Distortion was implemented in MATLAB (see \href{run:../clipping.m}{clipping.m}) using the equations in the previous section. The gain is specified in dB, and the script reinterprets this parameter as the linear gain, $G$.
 
 \subsection{Demo and Discussion}
 The effect is best heard on the ``Hero'' \href{run:../InputAudio/22-001 Original Vocal.wav}{vocal track}. Soft clipping was applied for \href{run:../OutputAudio/clipping_22-001 Original Vocal_{pre-gain=10}{soft-clipping=1}.wav}{10 dB}, \href{run:../OutputAudio/clipping_22-001 Original Vocal_{pre-gain=30}{soft-clipping=1}.wav}{30 dB}, \href{run:../OutputAudio/clipping_22-001 Original Vocal_{pre-gain=50}{soft-clipping=1}.wav}{50 dB}. The output sounds particularly harsh at 50 dB. However, it is possible to distinguish between an extremely loud soft clipping signal and the harshness of hard clipping, even at only \href{run:../OutputAudio/clipping_22-001 Original Vocal_{pre-gain=30}{soft-clipping=0}.wav}{30 dB}. Figures \ref{fig:soft-clipping-output} and \ref{fig:hard-clipping-output} show the output of vocal sample for both distortion styles at 30 dB.
